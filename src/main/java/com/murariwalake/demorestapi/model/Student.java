@@ -5,6 +5,12 @@ public class Student {
 	private String name;
 	private int age;
 
+	public Student(int id, String name, int age) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+	}
+
 	//add setter and getter methods for all the fields
 	public void setId(int id) {
 		this.id = id;
@@ -29,6 +35,4 @@ public class Student {
 	public int getAge() {
 		return age;
 	}
-
-
 }

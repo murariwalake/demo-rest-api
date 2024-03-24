@@ -1,8 +1,10 @@
 package com.murariwalake.demorestapi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.murariwalake.demorestapi.model.Student;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,48 +18,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/students")
 public class StudentRestController {
 
-	//get student by id
+	private final List<Student> students;
+
+	public StudentRestController() {
+		students = new ArrayList<>();
+		students.add(new Student(1, "Murari Walake", 25));
+		students.add(new Student(2, "John Doe", 30));
+	}
+
 	@GetMapping("/{id}")
-	public Student getStudent(@PathVariable String id) {
-		Student student = new Student();
-		student.setId(Integer.parseInt(id));
-		student.setName("Murari Walake");
-		student.setAge(25);
-		return student;
+	public ResponseEntity<Student> getStudent(@PathVariable String id) {
+		return students.stream()
+				.filter(student -> student.getId() == Integer.parseInt(id))
+				.findFirst()
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
-	//get all students
 	@GetMapping()
-	public List<Student> getStudents() {
-		Student student1 = new Student();
-		student1.setId(1);
-		student1.setName("Murari Walake");
-		student1.setAge(25);
-
-		Student student2 = new Student();
-		student2.setId(2);
-		student2.setName("John Doe");
-		student2.setAge(30);
-
-		return List.of(student1, student2);
+	public ResponseEntity<List<Student>> getStudents() {
+		return ResponseEntity.ok(students);
 	}
 
-	//add student
 	@PostMapping()
-	public Student addStudent(@RequestBody Student student) {
-		return student;
+	public ResponseEntity<?> addStudent(@RequestBody Student student) {
+		if (students.stream().anyMatch(s -> s.getId() == student.getId())) {
+			return ResponseEntity.status(409).build();
+		}
+		students.add(student);
+		return ResponseEntity.ok(student);
 	}
 
-	//update student
 	@PutMapping("/{id}")
-	public Student updateStudent(@PathVariable String id, @RequestBody Student student) {
-		return student;
+	public ResponseEntity<?> updateStudent(@PathVariable String id, @RequestBody Student student) {
+		return students.stream()
+				.filter(s -> s.getId() == Integer.parseInt(id))
+				.findFirst()
+				.map(s -> {
+					s.setAge(student.getAge());
+					s.setName(student.getName());
+					return ResponseEntity.ok(s);
+				})
+				.orElse(ResponseEntity.notFound().build());
 	}
 
-	//delete student
 	@DeleteMapping("/{id}")
-	public void deleteStudent(@PathVariable String id) {
-		System.out.println("Student deleted with id: "+id);
+	public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
+		return students.removeIf(student -> student.getId() == Integer.parseInt(id))
+				? ResponseEntity.ok().build()
+				: ResponseEntity.notFound().build();
 	}
-
 }

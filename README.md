@@ -2,6 +2,8 @@
 
 In this guide, we'll walk through the process of setting up a simple Spring Boot project to perform CRUD operations on a Student entity. We'll cover everything from creating the project using command-line tools to explaining key annotations used in the project, testing the operations with Postman, and more.
 
+medium blog: https://medium.com/@murariwalake/getting-started-with-spring-boot-building-rest-api-66efea30d8c5
+
 ## Prerequisites:
 Before diving into Spring Boot, it’s important to have a basic understanding of Java programming and RESTful architecture concepts. Additionally, ensure you have the following tools installed:
 
@@ -79,7 +81,7 @@ mvn spring-boot:run
 
 After starting the application, open Postman and import the provided JSON file to start testing each API endpoint.
 
-[Postman JSON file](#) (JSON file not provided in the original content)
+[Postman JSON file](https://github.com/murariwalake/demo-rest-api/blob/main/postman-collection.json) 
 
 ## Conclusion:
 

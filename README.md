@@ -79,7 +79,7 @@ mvn spring-boot:run
 
 After starting the application, open Postman and import the provided JSON file to start testing each API endpoint.
 
-[Postman JSON file](https://github.com/murariwalake/demo-rest-api/blob/main/postman-collection.json) (JSON file not provided in the original content)
+[Postman JSON file](https://github.com/murariwalake/demo-rest-api/blob/main/postman-collection.json) 
 
 ## Conclusion:
 
